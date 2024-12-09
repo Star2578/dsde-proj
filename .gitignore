@@ -4,3 +4,5 @@ latest_logs/*
 downloaded_files
 downloaded_files/*
 *.json
+
+raw_data.csv
