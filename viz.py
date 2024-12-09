@@ -20,6 +20,36 @@ def load_data():
 
 scopus_data , asjc_df = load_data()
 
+
+#drop null row & cast to int
+month_stats_df = scopus_data.copy()
+month_stats_df = scopus_data.dropna(subset=["ref_count" , "citedby_count"],axis=0 , how="any")
+month_stats_df["ref_count"] = month_stats_df["ref_count"].astype(int)
+month_stats_df["citedby_count"] = month_stats_df["citedby_count"].astype(int)
+
+month_stats_df["year"] = month_stats_df["delivered_date"].dt.year
+month_stats_df["month"] = month_stats_df["delivered_date"].dt.month
+
+count_metric = st.selectbox("metric" , options=["Citation" , "Reference"])
+metric_map = {"Citation" : "citedby_count" , "Reference" : "ref_count"}
+st.subheader(f"Total {count_metric}: {len(month_stats_df[metric_map[count_metric]])}")
+fig = px.histogram(month_stats_df,
+                   x="month",
+                   y = metric_map[count_metric] , 
+                   animation_frame="year" ,
+                   title = f"Number of {count_metric} used each month" , 
+                   category_orders={"year" : [2019,2020,2021,2022,2023]},
+                   range_x=[1,12],
+                   range_y=[0,120000],
+                   labels={"total"}
+                   )
+fig.update_layout(transition = {"duration" : 100} )
+fig.update_xaxes(dtick= "M1" , tickformat="%B\n%y")
+st.plotly_chart(fig)
+
+
+
+st.header("Which journal get funded?")
 # # convert to dict, (index='Code')
 asjc_df.set_index('Code',inplace=True)
 asjc_dict = asjc_df["ASJC category"].to_dict()
@@ -27,7 +57,7 @@ asjc_cat_dict = asjc_df["ASJC category"].to_dict()
 asjc_subj_dict = asjc_df["Subject area"].to_dict()
 
 scopus_data = scopus_data.explode(column="ASJC_code") #list of subject code to multiple rows
-scopus_data["is_funding"].fillna("0" , inplace=True)
+scopus_data["is_funding"] = scopus_data["is_funding"].fillna("0")
 scopus_data["is_funding"] = scopus_data["is_funding"].astype(int)
 
 funded_sbj_df:pd.DataFrame = scopus_data.groupby("ASJC_code",as_index=False)["is_funding"].sum()
