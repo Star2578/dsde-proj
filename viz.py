@@ -67,8 +67,6 @@ asjc_cat_dict = asjc_df["ASJC category"].to_dict()
 asjc_subj_dict = asjc_df["Subject area"].to_dict()
 
 scopus_data = scopus_data.explode(column="ASJC_code") #list of subject code to multiple rows
-scopus_data["is_funding"] = scopus_data["is_funding"].fillna("0")
-scopus_data["is_funding"] = scopus_data["is_funding"].astype(int)
 
 funded_sbj_df:pd.DataFrame = scopus_data.groupby("ASJC_code",as_index=False)["is_funding"].sum()
 funded_sbj_df["Category"] = funded_sbj_df["ASJC_code"].astype(int).map(asjc_cat_dict)
