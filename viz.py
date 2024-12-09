@@ -21,6 +21,8 @@ def load_data():
 scopus_data , asjc_df = load_data()
 
 
+st.header(f'Cited/Refererence Statistics' , divider="red")
+
 #drop null row & cast to int
 month_stats_df = scopus_data.copy()
 month_stats_df = scopus_data.dropna(subset=["ref_count" , "citedby_count"],axis=0 , how="any")
@@ -30,9 +32,17 @@ month_stats_df["citedby_count"] = month_stats_df["citedby_count"].astype(int)
 month_stats_df["year"] = month_stats_df["delivered_date"].dt.year
 month_stats_df["month"] = month_stats_df["delivered_date"].dt.month
 
-count_metric = st.selectbox("metric" , options=["Citation" , "Reference"])
-metric_map = {"Citation" : "citedby_count" , "Reference" : "ref_count"}
-st.subheader(f"Total {count_metric}: {len(month_stats_df[metric_map[count_metric]])}")
+col1, col2 = st.columns(2)
+with col1:
+    st.metric("Citations", month_stats_df["citedby_count"].sum())
+with col2:
+    st.metric("References", month_stats_df["ref_count"].sum())
+    
+col1 , _ , _= st.columns(3)
+with col1:
+    count_metric = st.selectbox("choose metric" , options=["Citation" , "Reference"])
+    metric_map = {"Citation" : "citedby_count" , "Reference" : "ref_count"}
+
 fig = px.histogram(month_stats_df,
                    x="month",
                    y = metric_map[count_metric] , 
@@ -41,16 +51,16 @@ fig = px.histogram(month_stats_df,
                    category_orders={"year" : [2019,2020,2021,2022,2023]},
                    range_x=[1,12],
                    range_y=[0,120000],
-                   labels={"total"}
+                   labels={ metric_map[count_metric] : count_metric}
                    )
 fig.update_layout(transition = {"duration" : 100} )
-fig.update_xaxes(dtick= "M1" , tickformat="%B\n%y")
+fig.update_xaxes(dtick= "M1" , tickformat="%B")
 st.plotly_chart(fig)
 
 
 
-st.header("Which journal get funded?")
-# # convert to dict, (index='Code')
+st.header("Which journal get funded?",divider="red")
+
 asjc_df.set_index('Code',inplace=True)
 asjc_dict = asjc_df["ASJC category"].to_dict()
 asjc_cat_dict = asjc_df["ASJC category"].to_dict()
@@ -73,5 +83,13 @@ cluster_colors = {cluster: [int(x*255) for x in colormap(i/(total_sbj_area))[:3]
 
 funded_sbj_df["color"] = funded_sbj_df["Subject_area"].map(cluster_colors)
 
-horizontal_bar_g = px.bar(funded_sbj_df ,title="Graph showing total number of journal which is funded", x="is_funding",y="Category" , color="Subject_area")
+st.subheader("Total funding in each category")
+cols = st.columns(funded_sbj_df["Subject_area"].nunique())
+for i, x in enumerate(cols):
+    x.metric(
+        funded_sbj_df["Subject_area"].unique()[i] , 
+        funded_sbj_df.groupby("Subject_area")["is_funding"].sum().loc[funded_sbj_df["Subject_area"].unique()[i]])
+
+horizontal_bar_g = px.bar(funded_sbj_df ,title="Total number of journal which has been funded", x="is_funding",y="Category" , color="Subject_area")
 st.plotly_chart(horizontal_bar_g)
+st.caption("Some category needed to be zoomed to be visible")
