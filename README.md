@@ -4,20 +4,20 @@
 ```
 dsde-proj
 |
-|-- clean.ipynb
-|-- scopus.ipynb
-|-- selenium_scraping.ipynb
-|-- viz.py
+|-- clean.ipynb                    (load, cleaning)
+|-- scopus.ipynb                   (scrape 2024 scopus data)
+|-- selenium_scraping.ipynb        (scrape coord, ref/cited count, ASJC code)
+|-- viz.py                         (visualization)
 |-- .streamlit/
 |    |-- config.toml
 |-- data/
-|    |-- ASJC_cat.csv
-|    |-- coordinate_country.csv
-|    |-- ref_cite_count.csv
-|    |-- ref_cite_count_href.csv
-|    |-- raw_data.csv
-|    |-- scopus_data.csv
-|    |-- viz_data.parquet.gzip
+|    |-- ASJC_cat.csv              (ASJC code)
+|    |-- coordinate_country.csv    (Coordinate of affiliations)
+|    |-- ref_cite_count.csv        (ref/cited count)
+|    |-- ref_cite_count_href.csv   (url to scrape ref/cited count)
+|    |-- raw_data.csv              (given scopus data)
+|    |-- scopus_data.csv           (scraped 2024 scopus data)
+|    |-- viz_data.parquet.gzip     (visualization data)
 ```
 
 
