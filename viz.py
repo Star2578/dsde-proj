@@ -56,7 +56,7 @@ st.plotly_chart(tree_map)
     
 
 #=====================CiteRef stats=================================
-st.header(f'Citationa/Refererence Statistics' , divider="red")
+st.header(f'Citational/Refererence Statistics' , divider="red")
 
 #drop null row & cast to int
 month_stats_df = scopus_data.copy()
