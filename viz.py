@@ -38,15 +38,16 @@ most_subj_df["Subject_area"] = most_subj_df["ASJC_code"].astype(int).map(asjc_su
 st.subheader("Pie Chart")
 _ ,middle , _ = st.columns([2,5,2])
 with middle:    
-    pie_chart = px.pie(most_subj_df ,values="counts" , names='Subject_area' , title='Published articles' ,height=600)
+    pie_chart = px.pie(most_subj_df ,values="counts", color_discrete_sequence=px.colors.sequential.RdBu,color="counts" , names='Subject_area' , title='Published articles' ,height=600)
     st.plotly_chart(pie_chart)
 
 st.subheader("Treemap")
-tree_map = px.treemap(most_subj_df, path=["Subject_area" , "Category"] , values='counts' , height=1000)
+tree_map = px.treemap(most_subj_df, path=["Subject_area" , "Category"] , color_continuous_scale=px.colors.sequential.RdBu_r , color="counts" , values='counts' , height=1000)
+tree_map.data[0].textinfo = 'label+value    '
 tree_map.update_layout(
 font=dict(
-    family="Times New Roman",
-    size=24,
+
+    size=24
 ))
 st.plotly_chart(tree_map)
 
