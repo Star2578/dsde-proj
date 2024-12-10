@@ -14,9 +14,9 @@ st.title("Visualization of Scopus Dataset")
 
 @st.cache_data
 def load_data():
-    data = pd.read_parquet('viz_data.parquet.gzip')
-    asjc_df = pd.read_csv('ASJC_cat.csv')
-    coord_df = pd.read_csv("coordinate_country.csv" , index_col=0)
+    data = pd.read_parquet('data/viz_data.parquet.gzip')
+    asjc_df = pd.read_csv('data/ASJC_cat.csv')
+    coord_df = pd.read_csv("data/coordinate_country.csv" , index_col=0)
     return data , asjc_df , coord_df
 
 scopus_data , asjc_df , coord_df = load_data()

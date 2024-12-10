@@ -1,8 +1,13 @@
 Project
+
 latest_logs
 latest_logs/*
+
 downloaded_files
 downloaded_files/*
+
+lib/*
+
 *.json
 
-raw_data.csv
+data/raw_data.csv
