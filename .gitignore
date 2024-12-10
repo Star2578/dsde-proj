@@ -6,6 +6,8 @@ latest_logs/*
 downloaded_files
 downloaded_files/*
 
+lib/*
+
 *.json
 
 data/raw_data.csv
