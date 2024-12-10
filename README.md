@@ -26,3 +26,9 @@ dsde-proj
 2. run first cell to import library (assuming you already have scopus dataset in your machine)
 3. run cell below one of these header __"Load json (multithread)"__ , __"Load json (serial)"__
 4. run cell below __"Load json (multithread)"__ to export csv
+
+## To see a visualization
+At repo directory
+```
+streamlit run viz.py
+```
