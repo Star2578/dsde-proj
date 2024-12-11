@@ -8,6 +8,17 @@ dsde-proj
 |-- scopus.ipynb                   (scrape 2024 scopus data)
 |-- selenium_scraping.ipynb        (scrape coord, ref/cited count, ASJC code)
 |-- viz.py                         (visualization)
+|-- mlModel8.py                    (ML)
+|-- Kafka/
+|    |-- 10122024.csv
+|    |-- consumerDaily.py
+|    |-- producerDaily.py
+|    |-- docker-compose.yml
+|-- MLminio/                       (ML flow)
+|    |-- Dockerfile
+|    |-- ModelMLflow.py
+|    |-- docker-compose.yml
+|    |-- requirements.txt
 |-- .streamlit/
 |    |-- config.toml
 |-- data/
